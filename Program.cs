@@ -42,10 +42,11 @@ class Dispetcher
 
     public void Work()
     {
+        const string Yes = "yes";
+        const string No = "no";
+
         int minQuantityOfPassengers = 120;
-        int maxQuantityOfPassengers = 180;
-        string yes = "yes";
-        string no = "no";
+        int maxQuantityOfPassengers = 180;       
         Random random = new Random();
         bool isRun = true;
 
@@ -53,10 +54,10 @@ class Dispetcher
         {
             ShowAll();
             int quantityOfPassengers = random.Next(minQuantityOfPassengers, maxQuantityOfPassengers);
-            if (Utils.ReadString("Creete the new train? (yes/no): ") == yes)
+            if (Utils.ReadString("Creete the new train? (yes/no): ") == Yes)
                 AddTrain(GetNewTrain(quantityOfPassengers));
 
-            if (Utils.ReadString("Exit? (yes/no): ") == yes)
+            if (Utils.ReadString("Exit? (yes/no): ") == Yes)
                 isRun = false;
         }
     }
@@ -68,14 +69,14 @@ class Dispetcher
 
     private Train GetNewTrain(int quantityPassengers)
     {
-        int quantityPassengersPerOneCarriage = 20;
+        int quantityPlasesPerOneWagon = 20;
 
         string pointOfDeparture = Utils.ReadString("Inpout point of department:");
         string pointOfArrival = Utils.ReadString("Inpout point of arrival:");
         int numberOfTrain = Utils.ReadInt("Inpout number of train:");
-        int quantityOfCarriage = quantityPassengers / quantityPassengersPerOneCarriage;
+        int quantityOfWagon = quantityPassengers / quantityPlasesPerOneWagon;
 
-        return new Train(pointOfDeparture, pointOfArrival, numberOfTrain, quantityOfCarriage);
+        return new Train(pointOfDeparture, pointOfArrival, numberOfTrain, quantityOfWagon, quantityPlasesPerOneWagon);
     }
 
     private void ShowAll()
@@ -97,16 +98,20 @@ class Train
     private string _pointOfDeparture;
     private string _pointOfArrival;
     private int _number;
-    private int _quantityOfCarriage;
+    private int _quantityOfWagons;
     private DateTime _dateTime;
+    private List<Wagon> _wagons;
 
-    public Train(string pointOfDeparture, string pointOfArrival, int number, int quantityOfCarriage)
+    public Train(string pointOfDeparture, string pointOfArrival, int number, int quantityOfWagons, int quantityPlasesPerOneWagon)
     {
         _number = number;
-        _quantityOfCarriage = quantityOfCarriage;
+        _quantityOfWagons = quantityOfWagons;
         _pointOfDeparture = pointOfDeparture;
         _pointOfArrival = pointOfArrival;
         _dateTime = DateTime.Now;
+
+        for (int i = 0; i < quantityOfWagons; i++)
+            _wagons.Add(new Wagon(quantityPlasesPerOneWagon));
     }
 
     public void ShowData(int positionForShowX, int positionForShowY)
@@ -118,9 +123,21 @@ class Train
         Console.SetCursorPosition(positionForShowX + 28, positionForShowY);
         Console.Write(_pointOfArrival);
         Console.SetCursorPosition(positionForShowX + 40, positionForShowY);
-        Console.Write(_quantityOfCarriage);
+        Console.Write(_quantityOfWagons);
         Console.SetCursorPosition(positionForShowX + 53, positionForShowY);
         Console.Write(_dateTime);
         Console.WriteLine();
+    }
+
+    class Wagon
+    {
+        private List<string> _passangers;
+        private int _quantityPlace;
+
+        public Wagon(int quantityPlace)
+        {
+            _quantityPlace = quantityPlace;
+            _passangers = new List<string>(_quantityPlace);
+        }
     }
 }
