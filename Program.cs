@@ -42,7 +42,7 @@ class Dispetcher
 
     public void Work()
     {
-        const string Yes = "yes";
+        const string CommandContinue = "yes";
 
         int minQuantityOfPassengers = 120;
         int maxQuantityOfPassengers = 180;       
@@ -53,10 +53,11 @@ class Dispetcher
         {
             ShowAll();
             int quantityOfPassengers = random.Next(minQuantityOfPassengers, maxQuantityOfPassengers);
-            if (Utils.ReadString("Creete the new train? (yes/no): ") == Yes)
+
+            if (Utils.ReadString("Creete the new train? (yes/no): ") == CommandContinue)
                 AddTrain(GetNewTrain(quantityOfPassengers));
 
-            if (Utils.ReadString("Exit? (yes/no): ") == Yes)
+            if (Utils.ReadString("Exit? (yes/no): ") == CommandContinue)
                 isRun = false;
         }
     }
