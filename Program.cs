@@ -43,7 +43,6 @@ class Dispetcher
     public void Work()
     {
         const string Yes = "yes";
-        const string No = "no";
 
         int minQuantityOfPassengers = 120;
         int maxQuantityOfPassengers = 180;       
